@@ -7,6 +7,8 @@ export default function Header() {
         <StyledNavbar>
             <Link to="/registration">Registration</Link>
             {''}|{''}
+            <Link to="/login">Login</Link>
+            {''}|{''}
             <Link to="/random">Random</Link>
             {''}|{''}
             <Link to="/type">Type</Link>
