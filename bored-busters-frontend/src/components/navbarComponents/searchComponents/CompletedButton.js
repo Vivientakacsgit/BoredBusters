@@ -2,6 +2,7 @@ import React from 'react';
 import StyledFavButton from "../../styledComponents/StyledFavButton";
 import {FaCheck} from 'react-icons/fa';
 import axios from 'axios';
+import Cookies from "js-cookie";
 
 
 function CompletedButton(props) {
@@ -10,9 +11,14 @@ function CompletedButton(props) {
         const newValue = props.activity.completed === 1 ? 0 : 1;
         props.activity.completed = newValue
         const complete = {
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json, text/plain, */*",
+                Authorization: "Bearer " + Cookies.get('token'),
+            },
             activityId: props.activity.id,
             value: newValue,
-        }
+        };
         axios.put('http://127.0.0.1:8000/api/complete', complete)
             .then((response) => {
                 props.setCompleted(props.activity.id, props.activity.completed)
