@@ -6,6 +6,7 @@ import StyledGetButton from "../../styledComponents/StyledGetButton";
 import StyledFavoriteSearchContainer from "../../styledComponents/StyledFavoriteSearchContainer";
 import {SlideValueContext} from "../../../contextComponents/SlideValueContext";
 import axios from 'axios';
+import Cookies from "js-cookie";
 
 function FavoriteSearch(props) {
     const types = ["all", "education", "recreational", "social", "diy", "charity", "cooking", "relaxation", "music", "busywork"]
@@ -16,6 +17,12 @@ function FavoriteSearch(props) {
     const clearFields = () => {
         setParticipants("");
     };
+
+    const options = {headers: {
+        "Content-Type": "application/json",
+            Accept: "application/json, text/plain, */*",
+            Authorization: "Bearer " + Cookies.get('token'),
+    }};
 
     const filterActivities = () => {
         const filterData = {
