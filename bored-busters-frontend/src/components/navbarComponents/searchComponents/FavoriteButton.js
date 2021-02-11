@@ -6,12 +6,19 @@ import Cookies from "js-cookie";
 
 export default function FavoriteButton(props) {
     const [activity, setActivity] = useState([]);
+    const options = {
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json, text/plain, */*",
+            Authorization: "Bearer " + Cookies.get('token'),
+        }
+    };
 
     useEffect(() => {
         if (props.activity) {
             setActivity(props.activity)
         } else {
-            axios.get(`http://127.0.0.1:8000/api/get-activity/${props.activity.activity}`)
+            axios.get(`http://127.0.0.1:8000/api/get-activity/${props.activity.activity}`, options)
                 .then((response) => {
                     setActivity(response.data)
                 })
@@ -19,13 +26,13 @@ export default function FavoriteButton(props) {
     }, [props.activity])
 
     function getFavorites() {
-        axios.get(`http://127.0.0.1:8000/api/favorite/${sessionStorage.getItem('userId')}`)
+        axios.get(`http://127.0.0.1:8000/api/favorite/${sessionStorage.getItem('userId')}`, options)
             .then((response) => {props.setFavorites(response.data)}
             )
     }
 
     function deleteFromFavorites() {
-        axios.delete(`http://127.0.0.1:8000/api/favorite/${activity.id}`)
+        axios.delete(`http://127.0.0.1:8000/api/favorite/${activity.id}`, options)
             .then((response) => {
                 setActivity([])
                 if (props.setActivity) {
@@ -43,7 +50,7 @@ export default function FavoriteButton(props) {
             activity: activity,
             userId: sessionStorage.getItem('userId')
         }
-        axios.post('http://127.0.0.1:8000/api/favorite', data )
+        axios.post('http://127.0.0.1:8000/api/favorite', data, options)
             .then((response) => {
                 setActivity(response.data)
             })
